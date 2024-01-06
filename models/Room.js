@@ -1,6 +1,6 @@
-const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../config/connection");
-const bcrypt = require("bcrypt");
+import { Model, DataTypes } from "sequelize";
+import sequelize from "../db/connection";
+import bcrypt from 'bcrypt';
 
 class Room extends Model {
   checkPassword(loginPw) {
@@ -54,4 +54,4 @@ Room.init(
   }
 );
 
-module.exports = Room;
+export default Room;

@@ -1,5 +1,5 @@
-const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../config/connection");
+import { Model, DataTypes } from "sequelize";
+import sequelize from "../db/connection";
 
 class RoomUser extends Model {}
 
@@ -35,4 +35,4 @@ RoomUser.init(
   }
 );
 
-module.exports = RoomUser;
+export default RoomUser;

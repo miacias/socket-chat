@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-// import { users } from "../db/connection.js";
+import { User, Room, Message } from '../models/index.js';
 // const { emitActions } = require("../events");
 // const checkAuth = require("../middleware/checkAuth");
 

@@ -1,6 +1,7 @@
-const User = require("./User");
-const Room = require("./Room");
-const Message = require("./Message");
+import User from "./User";
+import Room from "./Room";
+import Message from "./Message";
+import RoomUser from './RoomUser';
 
 // User has many messages and messages belong to many users
 Message.belongsTo(User, {
@@ -37,4 +38,4 @@ Room.belongsToMany(User, {
   as: 'chatter'
 })
 
-module.exports = { User, Room, Message, };
+export { User, Room, Message, RoomUser };
