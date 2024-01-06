@@ -10,28 +10,29 @@ import sequelize from './db/connection.js';
 import connectSessionSequelize from 'connect-session-sequelize';
 
 const SequelizeStore = connectSessionSequelize(Store);
-const __filename = new URL(import.meta.url).pathname;
-const __dirname = dirname(__filename);
+// const __filename = new URL(import.meta.url).pathname;
+// const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const sessOptions = session({
   secret: process.env.SECRET,
   cookie: {
-    // maxAge: 1800000,
-    // httpOnly: true,
-    // secure: true,
-    // sameSite: 'strict'
+    maxAge: 1800000,
+    httpOnly: true,
+    secure: false, // set to true in production
+    sameSite: 'strict'
   },
   resave: false,
   saveUninitialized: true,
   store: new SequelizeStore({ db: sequelize }),
 });
 
-app.use(sessOptions);
 app.use(json());
 app.use(urlencoded({ extended: true }));
-app.use(express.static(join(__dirname, 'public')));
+// app.use(express.static(join(__dirname, 'public')));
+app.use(express.static('public'));
+app.use(sessOptions);
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.use(routes);
