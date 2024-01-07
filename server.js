@@ -1,7 +1,7 @@
 import {} from 'dotenv/config';
 import express, { json, urlencoded } from 'express';
 import session, { Store } from 'express-session';
-import { engine } from 'express-handlebars';
+import exphbs from 'express-handlebars';
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 import routes from './routes/index.js';
@@ -9,9 +9,11 @@ import sequelize from './db/connection.js';
 import connectSessionSequelize from 'connect-session-sequelize';
 
 const SequelizeStore = connectSessionSequelize(Store);
+import helpers from './utils/helpers.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const hbs = exphbs.create({ helpers });
 const sessOptions = session({
   secret: process.env.SECRET,
   cookie: {
@@ -29,7 +31,7 @@ app.use(json());
 app.use(urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(sessOptions);
-app.engine('handlebars', engine());
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use(routes);
 

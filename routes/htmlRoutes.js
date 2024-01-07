@@ -4,13 +4,16 @@ const router = express.Router();
 // import db from '../db/connection';
 // const checkAuth = require('../middleware/checkAuth')
 
-
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   res.render('index', {
-    // loggedIn: !!req.session.userID,
-    // username: req.session.username,
-  })
-})
+    loggedIn: !!req.session.userId,
+    username: req.session.username,
+  });
+});
+
+router.get('/login', async (req, res) => {
+  res.render('login');
+});
 
 // router.get('/room/:id', checkAuth, async (req, res) => {
 //   const roomID = req.params.id
