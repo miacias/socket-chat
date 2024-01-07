@@ -24,14 +24,11 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/signup', async (req, res) => {
-  console.log('backend signup')
   const { username, password } = req.body;
   if (!username || !password) res.redirect('/');
   try {
     const newUser = await User.create(req.body);
     if (!newUser) res.status(400).json({ message: 'Unauthorized. Please check username and password.' });
-    const passwordCheck = await newUser.checkPassword(password);
-    if (!passwordCheck) res.status(400).json({ message: 'Unauthorized. Please check username and password.' });
     req.session.userId = newUser.id;
     req.session.username = newUser.username;
     res.redirect('/');

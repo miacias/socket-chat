@@ -8,11 +8,20 @@ router.get('/', async (req, res) => {
   res.render('index', {
     loggedIn: !!req.session.userId,
     username: req.session.username,
+    userId: req.session.userId,
   });
 });
 
 router.get('/login', async (req, res) => {
   res.render('login');
+});
+
+router.get('/rooms', async (req, res) => {
+  res.render('room', {
+    loggedIn: !!req.session.userId,
+    username: req.session.username,
+    userId: req.session.userId,
+  });
 });
 
 // router.get('/room/:id', checkAuth, async (req, res) => {

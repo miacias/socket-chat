@@ -3,10 +3,10 @@ import express, { json, urlencoded } from 'express';
 import session, { Store } from 'express-session';
 import exphbs from 'express-handlebars';
 import { createServer } from 'node:http';
-import { Server } from 'socket.io';
 import routes from './routes/index.js';
 import sequelize from './db/connection.js';
 import connectSessionSequelize from 'connect-session-sequelize';
+import { Server } from 'socket.io';
 
 const SequelizeStore = connectSessionSequelize(Store);
 import helpers from './utils/helpers.js';
@@ -17,7 +17,7 @@ const hbs = exphbs.create({ helpers });
 const sessOptions = session({
   secret: process.env.SECRET,
   cookie: {
-    maxAge: 1800000,
+    // maxAge: 1800000, // 30 min
     httpOnly: true,
     secure: false, // set to true in production
     sameSite: 'strict'
@@ -37,26 +37,7 @@ app.use(routes);
 
 const server = createServer(app);
 const io = new Server(server, {
-  // path: '/hello'
-});
-
-io.on('connection', (socket) => {
-  console.log('A user connected');
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-
-  // Handle room creation
-  socket.on('createRoom', (roomName) => {
-    socket.join(roomName);
-    io.to(roomName).emit('message', `You joined ${roomName}`);
-  });
-
-  // Handle chat messages
-  socket.on('sendMessage', (data) => {
-    io.to(data.room).emit('message', data.message);
-  });
+  path: '/rooms'
 });
 
 const serverPromise = async () => {
@@ -72,3 +53,5 @@ const serverPromise = async () => {
 };
 
 serverPromise();
+
+export default { server, io };

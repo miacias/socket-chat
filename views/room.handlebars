@@ -1,0 +1,17 @@
+<h3>This is the room you are in</h3>
+<p>Messages show below here:</p>
+<ul id="messages-container"></ul>
+
+<hr>
+<form>
+  <input type="text" id="room-name" placeholder="Name New Room"/>
+  <input type="password" id="room-password" placeholder="Create Password"/>
+  <button type="submit" id="room-create-btn">Start</button>
+</form>
+{{!-- <form>
+  <input type="text" id="msg-input" placeholder="Type a message"/>
+  <button onclick="sendMessage()">Send Message</button>
+  <ul id="messages"></ul>
+</form> --}}
+<script type="module" src="/socket.io/socket.io.js"></script>
+<script type="module" src="/js/client-socket.js"></script>
