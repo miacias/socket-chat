@@ -1,7 +1,7 @@
-import User from "./User";
-import Room from "./Room";
-import Message from "./Message";
-import RoomUser from './RoomUser';
+import User from "./User.js";
+import Room from "./Room.js";
+import Message from "./Message.js";
+import RoomUser from './RoomUser.js';
 
 // User has many messages and messages belong to many users
 Message.belongsTo(User, {

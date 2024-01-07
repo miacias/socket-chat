@@ -1,5 +1,5 @@
 import { Model, DataTypes } from "sequelize";
-import sequelize from "../db/connection";
+import sequelize from "../db/connection.js";
 
 class Message extends Model {}
 
@@ -18,14 +18,14 @@ Message.init(
     author_id: {
       type: DataTypes.UUID,
       references: {
-        model: "user",
+        model: "users",
         key: "id",
       },
     },
     room_id: {
       type: DataTypes.UUID,
       references: {
-        model: "room",
+        model: "rooms",
         key: "id",
       },
     },
@@ -33,7 +33,7 @@ Message.init(
   {
     sequelize,
     timestamps: false,
-    freezeTableName: true,
+    freezeTableName: false,
     underscored: true,
     modelName: "message",
   }

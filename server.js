@@ -1,4 +1,3 @@
-// import { join, dirname } from 'path';
 import {} from 'dotenv/config';
 import express, { json, urlencoded } from 'express';
 import session, { Store } from 'express-session';
@@ -10,8 +9,6 @@ import sequelize from './db/connection.js';
 import connectSessionSequelize from 'connect-session-sequelize';
 
 const SequelizeStore = connectSessionSequelize(Store);
-// const __filename = new URL(import.meta.url).pathname;
-// const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -30,7 +27,6 @@ const sessOptions = session({
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
-// app.use(express.static(join(__dirname, 'public')));
 app.use(express.static('public'));
 app.use(sessOptions);
 app.engine('handlebars', engine());
@@ -63,12 +59,13 @@ io.on('connection', (socket) => {
 
 const serverPromise = async () => {
   try {
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ force: true });
+    console.log('Database successfully synchronized.');
     server.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
     });
   } catch (err) {
-    console.error({ message: `Server failed to initialize. Error: \n${err}` });
+    console.error({ message: `Server failed to initialize. ${err}` });
   }
 };
 

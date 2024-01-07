@@ -1,5 +1,5 @@
 import { Model, DataTypes } from "sequelize";
-import sequelize from "../db/connection";
+import sequelize from "../db/connection.js";
 import bcrypt from 'bcrypt';
 
 class Room extends Model {
@@ -30,7 +30,7 @@ Room.init(
     admin_id: {
       type: DataTypes.UUID,
       references: {
-        model: "user",
+        model: "users",
         key: "id",
       },
     }

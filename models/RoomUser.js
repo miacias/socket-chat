@@ -1,5 +1,5 @@
 import { Model, DataTypes } from "sequelize";
-import sequelize from "../db/connection";
+import sequelize from "../db/connection.js";
 
 class RoomUser extends Model {}
 
@@ -12,16 +12,16 @@ RoomUser.init(
       primaryKey: true,
     },
     chatter_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       references: {
-        model: "user",
+        model: "users",
         key: "id",
       },
     },
     room_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       references: {
-        model: "room",
+        model: "rooms",
         key: "id",
       },
     },
@@ -31,7 +31,7 @@ RoomUser.init(
     timestamps: false,
     freezeTableName: false,
     underscored: true,
-    modelName: "chatter",
+    modelName: "roomuser",
   }
 );
 
