@@ -17,7 +17,6 @@ router.post('/login', async (req, res) => {
       req.session.username = user.username;
       res.status(201).json(user);
     })
-    res.redirect('/');
   } catch(err) {
     res.status(400).send(err.message);
   }
@@ -42,7 +41,6 @@ router.post('/logout', async (req, res) => {
     req.session.destroy(() => {
       return res.status(204).end();
     });
-    // return res.redirect('/');
   } catch (err) {
     console.error(err);
     res.status(500).send(err);

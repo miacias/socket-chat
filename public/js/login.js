@@ -2,13 +2,16 @@ const loginForm = document.querySelector('#login-form');
 const signupForm = document.querySelector('#signup-form');
 
 const login = async (event) => {
+  console.log('hello login')
   event.preventDefault();
-  const username = document.querySelector('#login-username').value.trim();
-  const password = document.querySelector('#login-password').value.trim();
-  if (username && password) {
+  const user = {
+    username: document.querySelector('#login-username').value.trim(),
+    password: document.querySelector('#login-password').value.trim(),
+  }
+  if (user.username && user.password) {
     const response = await fetch('/api/users/login', {
       method: 'POST',
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify(user),
       headers: { 'Content-Type': 'application/json' }
     });
     if (response.ok) {
@@ -22,13 +25,11 @@ const login = async (event) => {
 
 const signup = async (event) => {
   event.preventDefault();
-  const username = document.querySelector('#signup-username').value.trim();
-  const password = document.querySelector('#signup-password').value.trim();
-  if (username && password) {
-    const newUser = {
-      username: username,
-      password: password,
-    };
+  const newUser = {
+    username: document.querySelector('#signup-username').value.trim(),
+    password: document.querySelector('#signup-password').value.trim(),
+  }
+  if (newUser.username && newUser.password) {
     const response = await fetch('/api/users/signup', {
       method: 'POST',
       body: JSON.stringify(newUser),
@@ -39,7 +40,10 @@ const signup = async (event) => {
     } else {
       alert('Failed to sign up. Please try again');
     }
+  } else {
+    alert('Must include username and password');
   }
+  
   signupForm.reset();
 }
 
