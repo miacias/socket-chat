@@ -18,14 +18,14 @@ Message.init(
     author_id: {
       type: DataTypes.UUID,
       references: {
-        model: "users",
+        model: "user",
         key: "id",
       },
     },
     room_id: {
       type: DataTypes.UUID,
       references: {
-        model: "rooms",
+        model: "room",
         key: "id",
       },
     },
@@ -33,7 +33,7 @@ Message.init(
   {
     sequelize,
     timestamps: false,
-    freezeTableName: false,
+    freezeTableName: true,
     underscored: true,
     modelName: "message",
   }

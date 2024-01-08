@@ -39,12 +39,10 @@ router.post('/signup', async (req, res) => {
 
 router.post('/logout', async (req, res) => {
   try {
-    if (req.session.loggedIn) {
-      await req.session.destroy(() => {
-        res.status(204).end();
-      })
-    }
-    return res.redirect('/');
+    req.session.destroy(() => {
+      return res.status(204).end();
+    });
+    // return res.redirect('/');
   } catch (err) {
     console.error(err);
     res.status(500).send(err);

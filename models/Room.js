@@ -30,7 +30,7 @@ Room.init(
     admin_id: {
       type: DataTypes.UUID,
       references: {
-        model: "users",
+        model: "user",
         key: "id",
       },
     }
@@ -48,7 +48,7 @@ Room.init(
     },
     sequelize,
     timestamps: false,
-    freezeTableName: false,
+    freezeTableName: true,
     underscored: true,
     modelName: 'room',
   }

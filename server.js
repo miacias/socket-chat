@@ -42,10 +42,10 @@ const io = new Server(server, {
 
 const serverPromise = async () => {
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
     console.log('Database successfully synchronized.');
     server.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
+      console.log(`Server running on \x1b[35m http://localhost:${PORT} \x1b[0m`);
     });
   } catch (err) {
     console.error({ message: `Server failed to initialize. ${err}` });
