@@ -15,7 +15,7 @@ io.on('connection', (socket) => {
 
   // Handle chat messages
   socket.on('sendMessage', (data) => {
-    io.to(data.room).emit('message', data.message);
+    io.to(data.room).emit('message', data.message/*, socket.request.session*/);
   });
 });
 

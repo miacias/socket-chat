@@ -28,8 +28,11 @@ router.post('/signup', async (req, res) => {
   try {
     const newUser = await User.create(req.body);
     if (!newUser) res.status(400).json({ message: 'Unauthorized. Please check username and password.' });
-    req.session.userId = newUser.id;
-    req.session.username = newUser.username;
+    console.log(newUser.id)
+    req.session.save(() => {
+      req.session.userId = newUser.id;
+      req.session.username = newUser.username;
+    });
     res.redirect('/');
   } catch (err) {
     res.status(500).send(err.message);

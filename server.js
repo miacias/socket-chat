@@ -3,10 +3,10 @@ import express, { json, urlencoded } from 'express';
 import session, { Store } from 'express-session';
 import exphbs from 'express-handlebars';
 import { createServer } from 'node:http';
-import routes from './routes/index.js';
 import sequelize from './db/connection.js';
-import connectSessionSequelize from 'connect-session-sequelize';
 import { Server } from 'socket.io';
+import connectSessionSequelize from 'connect-session-sequelize';
+import routes from './routes/index.js';
 
 const SequelizeStore = connectSessionSequelize(Store);
 import helpers from './utils/helpers.js';

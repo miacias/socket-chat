@@ -29,13 +29,23 @@ User.hasMany(Room, {
 });
 
 Room.belongsTo(User, {
-  as: 'admin'
+  as: 'admin',
+  foreignKey: 'admin_id'
 });
 
 // many users can have access to a single room
 Room.belongsToMany(User, {
   through: 'RoomUser',
-  as: 'chatter'
-})
+  as: 'chatter',
+  foreignKey: 'room_id',
+  otherKey: 'chatter_id'
+});
+
+User.belongsToMany(Room, {
+  through: 'RoomUser',
+  as: 'chatter',
+  foreignKey: 'chatter_id',
+  otherKey: 'room_id'
+});
 
 export { User, Room, Message, RoomUser };

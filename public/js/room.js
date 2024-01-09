@@ -1,9 +1,7 @@
-import { io } from "socket.io-client";
-// import { io } from "/socket.io-client/dist/socket.io.js";
-
-const socket = io();
+const socket = io(`ws://localhost:3000`);
+// const socket = io();
+// const socket = io("http://localhost:3000");
 const createRoomForm = document.getElementById('create-room');
-// const socket = io("http://localhost:3001");
 
 // function saveName() {
 //   const username = document.getElementById('username').value.trim();
@@ -19,7 +17,6 @@ const createRoom = async (event) => {
     admin_id: req.session.userId,
   }
   console.log(newRoom)
-  debugger
   const response = await fetch('/api/rooms', {
     method: 'POST',
     body: JSON.stringify(newRoom),
@@ -47,4 +44,4 @@ socket.on('message', (message) => {
   ul.appendChild(li);
 });
 
-roomCreateBtn.addEventListener('submit', createRoom);
+createRoomForm.addEventListener('submit', createRoom);

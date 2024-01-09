@@ -29,6 +29,7 @@ Room.init(
     },
     admin_id: {
       type: DataTypes.UUID,
+      allowNull: false,
       references: {
         model: "user",
         key: "id",
@@ -38,12 +39,20 @@ Room.init(
   {
     hooks: {
       beforeCreate: async (newRoom) => {
+        console.log('in the before room create hook', newRoom.admin_id)
         newRoom.password = await bcrypt.hash(newRoom.password, 10);
         return newRoom;
       },
       beforeUpdate: async (updatedRoom) => {
+        console.log('in the before room update hook', updatedRoom.admin_id)
         updatedRoom.password = await bcrypt.hash(updatedRoom.password, 10);
         return updatedRoom;
+      },
+      beforeBulkCreate: (bulkRoomData) => {
+        bulkRoomData.forEach((room) => {
+          room.password = bcrypt.hashSync(room.password, 10);
+        });
+        return bulkRoomData;
       },
     },
     sequelize,

@@ -2,7 +2,6 @@ const loginForm = document.querySelector('#login-form');
 const signupForm = document.querySelector('#signup-form');
 
 const login = async (event) => {
-  console.log('hello login')
   event.preventDefault();
   const user = {
     username: document.querySelector('#login-username').value.trim(),
