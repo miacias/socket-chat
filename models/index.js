@@ -3,6 +3,8 @@ import Room from "./Room.js";
 import Message from "./Message.js";
 import RoomUser from './RoomUser.js';
 
+// --------------message to user----------------------------
+
 // User has many messages and messages belong to many users
 Message.belongsTo(User, {
   foreignKey: 'author_id',
@@ -12,6 +14,8 @@ Message.belongsTo(User, {
 User.hasMany(Message, {
   foreignKey: 'author_id',
 });
+
+// --------------message to room----------------------------
 
 // Rooms have many messages and messages belong to a room
 Message.belongsTo(Room, {
@@ -23,6 +27,8 @@ Room.hasMany(Message, {
   foreignKey: 'room_id',
 });
 
+// --------------room to admin----------------------------
+
 // an admin user has many rooms and a room belongs to an admin
 User.hasMany(Room, {
   foreignKey: 'admin_id',
@@ -32,6 +38,8 @@ Room.belongsTo(User, {
   as: 'admin',
   foreignKey: 'admin_id'
 });
+
+// --------------room to user----------------------------
 
 // many users can have access to a single room
 Room.belongsToMany(User, {

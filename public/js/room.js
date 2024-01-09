@@ -3,11 +3,6 @@ const socket = io(`ws://localhost:3000`);
 // const socket = io("http://localhost:3000");
 const createRoomForm = document.getElementById('create-room');
 
-// function saveName() {
-//   const username = document.getElementById('username').value.trim();
-//   localStorage.setItem('socketName', username);
-// }
-
 const createRoom = async (event) => {
   console.log('\x1b[92m hello createRoom in client-socket.js \x1b[0m')
   event.preventDefault();
@@ -22,9 +17,10 @@ const createRoom = async (event) => {
     body: JSON.stringify(newRoom),
     headers: { 'Content-Type': 'application/json' }
   });
+  console.log(`\x1b[92m response: ${response} \x1b[0m`);
   if (response.ok) {
     socket.emit('createRoom', newRoom.name);
-    // document.location.replace(`/rooms/${newRoom.id}`);
+    document.location.replace(`/rooms/${newRoom.id}`);
   } else {
     alert('Failed to create room.');
     document.location.replace('/');

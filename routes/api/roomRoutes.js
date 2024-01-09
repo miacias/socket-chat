@@ -12,12 +12,11 @@ import { User, Room, Message, RoomUser } from '../../models/index.js';
 */
 router.post('/', async (req, res) => {
   const { name, password, adminId } = req.body;
-  console.log(adminId)
   try {
-    const newRoom = await Room.create({ name, password, adminId: adminId });
+    const newRoom = await Room.create({ name, password, admin_id: adminId });
     if (!newRoom) res.status(400).json({ message: 'Unable to create room.' });
-    const updateRoom = await newRoom.addChatter(adminId);
-    if (!updateRoom) res.status(400).json({ message: 'Cannot add user to room.' });
+    const updateChatters = await newRoom.addChatter(adminId);
+    if (!updateChatters || updateChatters.length === 0) res.status(400).json({ message: 'Cannot add user to room.' });
     res.status(201).json(newRoom);
   } catch (err) {
     console.error(err);
