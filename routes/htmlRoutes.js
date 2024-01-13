@@ -7,49 +7,38 @@ import { User, Room, Message } from '../models/index.js';
 // const checkAuth = require('../middleware/checkAuth')
 
 router.get('/', async (req, res) => {
+  const iChat = [];
+  const iAdmin = [];
   try {
     if (req.session.userId) {
-      let roomsAsAdmin = [];
-      let roomsAsChatter = await Room.findAll({
-        include: [{
-          model: User,
-          as: 'chatter',
-          where: { id: req.session.userId }
-        }],
-        raw: true
+      const me = await User.findByPk(req.session.userId, {
+        attributes: ['id', 'username'],
+        include: [
+          {
+            model: Room,
+            attributes: ['id', 'name', 'admin_id'],
+            include: [
+              {
+                model: User,
+                as: 'chatter',
+                attributes: ['id', 'username'],
+              }
+            ]
+          }
+        ]
       });
-      if (roomsAsChatter) {
-        // sort out which rooms are admin vs chatting
-        roomsAsAdmin = roomsAsChatter.filter(room => room.admin_id === req.session.userId);
-        console.log('admin', roomsAsAdmin)
-        roomsAsChatter = roomsAsChatter.filter(room => room.admin_id !== req.session.userId);
-        console.log('chat', roomsAsChatter)
-        // const adminRoom = roomsAsAdmin.get({ plain: true });
-        // const chatRoom = roomsAsChatter.get({ plain: true });
-        res.render('index', {
-          loggedIn: !!req.session.userId,
-          username: req.session.username,
-          userId: req.session.userId,
-          roomsAsAdmin,
-          roomsAsChatter
-        });
-      } else {
-        roomsAsAdmin = await Room.findAll({
-          include: [{
-            model: User,
-            as: 'admin',
-            where: { id: req.session.userId }
-          }],
-          raw: true
-        });
-        res.render('index', {
-          loggedIn: !!req.session.userId,
-          username: req.session.username,
-          userId: req.session.userId,
-          roomsAsAdmin,
-          roomsAsChatter
-        });
-      }
+      me.rooms.forEach((room, index) => {
+        room.admin_id === req.session.userId
+          ? iAdmin[index] = room.get({plain: true})
+          : iChat[index] = room.get({plain: true});
+      });
+      res.render('index', {
+        loggedIn: !!req.session.userId,
+        username: req.session.username,
+        userId: req.session.userId,
+        iChat,
+        iAdmin
+      });
     } else {
       res.render('index', {
         loggedIn: !!req.session.userId,

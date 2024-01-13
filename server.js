@@ -12,8 +12,9 @@ const SequelizeStore = connectSessionSequelize(Store);
 import helpers from './utils/helpers.js';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 const hbs = exphbs.create({ helpers });
+
+const PORT = process.env.PORT || 3000;
 const sessOptions = session({
   secret: process.env.SECRET,
   cookie: {

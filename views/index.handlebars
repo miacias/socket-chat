@@ -1,23 +1,39 @@
-{{!-- <p><a href="/rooms">View Rooms</a></p> --}}
+<h2>Create A Room</h2>
 <form id="create-room">
   <input type="text" id="room-name" placeholder="Enter room name"/>
   <input type="password" id="room-password" placeholder="Enter password"/>
   <button type="submit">Create Room</button>
 </form>
+<h2>Join A Room</h2>
+<form id="join-room">
+  <input type="text" id="invite-code" placeholder="Enter room code"/>
+  <input type="password" id="invite-password" placeholder="Enter password"/>
+  <button type="submit">Join Room</button>
+</form>
+{{#if (or iAdmin iChat)}}
 <hr>
-<p id='my-id' data-id={{userId}}>My Rooms</p>
-  {{log roomsAsAdmin}}
-  {{log roomsAsChatter}}
-{{#each roomsAsAdmin}}
-<ul id="admin-rooms">
-  <li id={{id}}><a href="/rooms/{{id}}">{{name}}</a></li>
-</ul>
-{{/each}}
-{{!-- {{#each roomsAsChatter}}
-<ul id="chat-rooms">
-  <li id={{id}}><a href="/rooms/{{id}}">{{name}}</a></li>
-</ul>
-{{/each}} --}}
+<div id="rooms-container">
+  <h3 id='my-id' data-id={{userId}}>My Rooms</h3>
+  {{!-- admin rooms --}}
+  {{#if iAdmin}}
+  <p>Rooms I Moderate:</p>
+  {{#each iAdmin}}
+  <ul id="admin-rooms">
+    <li id={{id}}><a href="/rooms/{{id}}">{{name}}</a></li>
+  </ul>
+  {{/each}}
+  {{/if}}
+  {{!-- chatting rooms --}}
+  {{#if iChat}}
+  <p>Participant Rooms:</p>
+  {{#each iChat}}
+  <ul id="chat-rooms">
+    <li id={{id}}><a href="/rooms/{{id}}">{{name}}</a></li>
+  </ul>
+  {{/each}}
+  {{/if}}
+</div>
+{{/if}}
 {{!-- <script type="module" src="/socket.io/socket.io.js"></script>
 <script type="module" src="/js/socket.js"></script> --}}
-<script type="module" src="/js/createRoom.js"></script>
+<script type="module" src="/js/enterRoom.js"></script>
