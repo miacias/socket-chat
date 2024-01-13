@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { User, Room, Message } from '../models/index.js';
+import { User, Room, Message } from '../../models/index.js';
 
 
 // import db from '../db/connection';
@@ -12,33 +12,40 @@ router.get('/', async (req, res) => {
   try {
     // send room data to home dash if logged in
     if (req.session.userId) {
+      // const me = await User.findByPk(req.session.userId, {
+      //   attributes: ['id', 'username'],
+      //   include: [
+      //     {
+      //       model: Room,
+      //       attributes: ['id', 'name', 'admin_id'],
+      //       include: [
+      //         {
+      //           model: User,
+      //           as: 'chatter',
+      //           attributes: ['id', 'username'],
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // });
       const me = await User.findByPk(req.session.userId, {
         attributes: ['id', 'username'],
-        include: [
-          {
-            model: Room,
-            attributes: ['id', 'name', 'admin_id'],
-            include: [
-              {
-                model: User,
-                as: 'chatter',
-                attributes: ['id', 'username'],
-              }
-            ]
-          }
-        ]
+        include: Room
       });
+      console.log(me)
       me.rooms.forEach((room, index) => {
         room.admin_id === req.session.userId
           ? iAdmin[index] = room.get({plain: true})
           : iChat[index] = room.get({plain: true});
       });
+      // console.log('iChat', iChat)
+      // console.log('iAdmin', iAdmin)
       res.render('index', {
         loggedIn: !!req.session.userId,
         username: req.session.username,
         userId: req.session.userId,
-        iChat,
-        iAdmin
+        // iChat,
+        // iAdmin
       });
     // send basic home page if logged out
     } else {

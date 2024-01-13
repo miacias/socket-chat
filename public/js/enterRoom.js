@@ -33,16 +33,20 @@ const createRoom = async (event) => {
 const joinRoom = async (event) => {
   event.preventDefault();
   const joinRoom = {
-    id: document.getElementById('invite-code'),
+    userId: document.getElementById('user').getAttribute('data-user'),
+    roomId: document.getElementById('invite-code'),
     password: document.getElementById('invite-password'),
-    userId: document.getElementById('user').getAttribute('data-user')
   }
-  const response = await fetch(`/api/rooms/${joinRoom.id}`, {
+  const response = await fetch(`/api/rooms/${joinRoom.roomId}`, {
     method: 'PUT',
     body: JSON.stringify(joinRoom),
     headers: { 'Content-Type': 'application/json' }
   });
-  console.log('response ok?', response.ok)
+  if (response.ok) {
+    document.location.replace(`/rooms/${joinRoom.roomId}`);
+  } else {
+    alert('Failed to join room. Check your rooms list.')
+  }
 }
 
 // function sendMessage() {
