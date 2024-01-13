@@ -32,13 +32,14 @@ const createRoom = async (event) => {
 
 const joinRoom = async (event) => {
   event.preventDefault();
-  const room = {
+  const joinRoom = {
     id: document.getElementById('invite-code'),
-    password: document.getElementById('invite-password')
+    password: document.getElementById('invite-password'),
+    userId: document.getElementById('user').getAttribute('data-user')
   }
-  const response = await fetch(`/api/rooms/${room.id}`, {
+  const response = await fetch(`/api/rooms/${joinRoom.id}`, {
     method: 'PUT',
-    body: JSON.stringify(room),
+    body: JSON.stringify(joinRoom),
     headers: { 'Content-Type': 'application/json' }
   });
   console.log('response ok?', response.ok)

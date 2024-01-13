@@ -26,11 +26,11 @@ router.post('/', async (req, res) => {
 
 // join a room
 router.put('/:id', async (req, res) => {
-  // const roomId = req.params.id;
-  const { roomId, password, userId } = req.body;
+  const roomId = req.params.id;
+  const { password, userId } = req.body;
   try {
-    const joiningRoom = await Room.findByPk(roomId, {
-      attributes: ['id', 'name'],
+    const roomData = await Room.findByPk(roomId, {
+      attributes: ['id', 'name', 'password'],
       include: [
         {
           model: User,
@@ -39,8 +39,13 @@ router.put('/:id', async (req, res) => {
         }
       ]
     });
-    const enrollUser = await joiningRoom.addChatter([...joiningRoom.chatter, userId]);
-    if (enrollUser) res.status(201).json(enrollUser)
+    const userInRoom = roomData.chatter.find(chatter => chatter.id === userId);
+    if (userInRoom) return res.status(400).json({ message: 'User is already registered to room.' });
+    const okPassword = await roomData.checkPassword(password);
+    if (!okPassword) return res.status(403).json({ message: 'Incorrect room credentials.' })
+    const enrollUser = await roomData.addChatter([...roomData.chatter, userId]);
+    if (enrollUser) return res.status(201).json(enrollUser);
+    return res.status(401).json({ message: 'Unable to join room.' });
   } catch (err) {
     console.error(err);
     res.status(500).json(err);

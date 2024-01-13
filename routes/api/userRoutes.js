@@ -11,7 +11,7 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ where: { username: username } });
     if (!user) res.status(400).json({ message: 'Unauthorized. Please check username and password.' });
     const passwordCheck = await user.checkPassword(password);
-    if (!passwordCheck) res.status(400).json({ message: 'Unauthorized. Please check username and password.' });
+    if (!passwordCheck) res.status(403).json({ message: 'Unauthorized. Please check username and password.' });
     req.session.save(() => {
       req.session.userId = user.id;
       req.session.username = user.username;
