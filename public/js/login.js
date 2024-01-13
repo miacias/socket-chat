@@ -42,7 +42,6 @@ const signup = async (event) => {
   } else {
     alert('Must include username and password');
   }
-  
   signupForm.reset();
 }
 
