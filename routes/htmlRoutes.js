@@ -10,6 +10,7 @@ router.get('/', async (req, res) => {
   const iChat = [];
   const iAdmin = [];
   try {
+    // send room data to home dash if logged in
     if (req.session.userId) {
       const me = await User.findByPk(req.session.userId, {
         attributes: ['id', 'username'],
@@ -39,6 +40,7 @@ router.get('/', async (req, res) => {
         iChat,
         iAdmin
       });
+    // send basic home page if logged out
     } else {
       res.render('index', {
         loggedIn: !!req.session.userId,

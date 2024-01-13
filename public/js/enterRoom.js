@@ -32,15 +32,16 @@ const createRoom = async (event) => {
 
 const joinRoom = async (event) => {
   event.preventDefault();
-  // const room = {
-  //   id: document.getElementById('invite-code'),
-  //   password: document.getElementById('invite-password')
-  // }
-  // const response = await fetch(`/api/rooms${room.id}`, {
-  //   method: 'PUT',
-  //   body: JSON.stringify(room),
-  //   headers: { 'Content-Type': 'application/json' }
-  // })
+  const room = {
+    id: document.getElementById('invite-code'),
+    password: document.getElementById('invite-password')
+  }
+  const response = await fetch(`/api/rooms/${room.id}`, {
+    method: 'PUT',
+    body: JSON.stringify(room),
+    headers: { 'Content-Type': 'application/json' }
+  });
+  console.log('response ok?', response.ok)
 }
 
 // function sendMessage() {

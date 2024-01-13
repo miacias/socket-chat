@@ -24,4 +24,27 @@ router.post('/', async (req, res) => {
   }
 });
 
+// join a room
+router.put('/:id', async (req, res) => {
+  // const roomId = req.params.id;
+  const { roomId, password, userId } = req.body;
+  try {
+    const joiningRoom = await Room.findByPk(roomId, {
+      attributes: ['id', 'name'],
+      include: [
+        {
+          model: User,
+          as: 'chatter',
+          attributes: ['id', 'username'],
+        }
+      ]
+    });
+    const enrollUser = await joiningRoom.addChatter([...joiningRoom.chatter, userId]);
+    if (enrollUser) res.status(201).json(enrollUser)
+  } catch (err) {
+    console.error(err);
+    res.status(500).json(err);
+  }
+});
+
 export default router;
