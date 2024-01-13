@@ -28,7 +28,6 @@ router.post('/signup', async (req, res) => {
   try {
     const newUser = await User.create(req.body);
     if (!newUser) res.status(400).json({ message: 'Unauthorized. Please check username and password.' });
-    console.log(newUser.id)
     req.session.save(() => {
       req.session.userId = newUser.id;
       req.session.username = newUser.username;

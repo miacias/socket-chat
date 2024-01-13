@@ -1,7 +1,7 @@
 import User from "./User.js";
 import Room from "./Room.js";
 import Message from "./Message.js";
-import RoomUser from './RoomUser.js';
+// import RoomUser from './RoomUser.js';
 
 // --------------message to user----------------------------
 
@@ -32,6 +32,7 @@ Room.hasMany(Message, {
 // an admin user has many rooms and a room belongs to an admin
 User.hasMany(Room, {
   foreignKey: 'admin_id',
+  onDelete: 'CASCADE',
 });
 
 Room.belongsTo(User, {
@@ -56,4 +57,4 @@ User.belongsToMany(Room, {
   otherKey: 'room_id'
 });
 
-export { User, Room, Message, RoomUser };
+export { User, Room, Message/*, RoomUser */};

@@ -1,7 +1,11 @@
-<p><a href="/rooms">View Rooms</a></p>
-{{!-- <form>
-  <input type="text" id="roomInput" placeholder="Enter room name">
-  <button onclick="createRoom()">Create Room</button>
-</form> --}}
+{{!-- <p><a href="/rooms">View Rooms</a></p> --}}
+<form id="create-room">
+  <input type="text" id="room-name" placeholder="Enter room name"/>
+  <input type="password" id="room-password" placeholder="Enter password"/>
+  <button type="submit">Create Room</button>
+</form>
+<hr>
+<p id='my-id' data-id={{userId}}>My Rooms</p>
 {{!-- <script type="module" src="/socket.io/socket.io.js"></script>
 <script type="module" src="/js/socket.js"></script> --}}
+<script type="module" src="/js/createRoom.js"></script>

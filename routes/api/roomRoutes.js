@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { User, Room, Message, RoomUser } from '../../models/index.js';
+import { User, Room, Message/*, RoomUser */} from '../../models/index.js';
 
 // create a room
 /*
