@@ -25,15 +25,16 @@ const seedRooms = async (users) => {
     },
   ];
   const room1 = await Room.create(roomData[0]);
-  await room1.addChatter(roomData[0].admin_id);
+  await room1.addParticipant(roomData[0].admin_id);
   const room2 = await Room.create(roomData[1]);
-  await room2.addChatter(roomData[1].admin_id);
-  return joinRoom(room1, room2, users)
+  await room2.addParticipant(roomData[1].admin_id);
+  return joinRoom(room1, room2, users);
 };
 
 const joinRoom = async (room1, room2, users) => {
-  await room1.addChatter(users[2].id);
-  await room2.addChatter(users[3].id);
+  await room1.addParticipant(users[1].id);
+  await room1.addParticipant(users[2].id); // mia, john, and henry
+  await room2.addParticipant(users[3].id); // john and omar
   return;
 };
 

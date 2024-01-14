@@ -25,6 +25,11 @@
 //         key: "id",
 //       },
 //     },
+//     isAdmin: {
+//       type: DataTypes.BOOLEAN,
+//       allowNull: false,
+//       defaultValue: false
+//     }
 //   },
 //   {
 //     sequelize,

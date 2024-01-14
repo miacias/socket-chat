@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
   try {
     const newRoom = await Room.create({ name, password, admin_id: adminId });
     if (!newRoom) res.status(400).json({ message: 'Unable to create room.' });
-    const updateChatters = await newRoom.addChatter(adminId);
+    const updateChatters = await newRoom.addParticipant(adminId);
     if (!updateChatters || updateChatters.length === 0) res.status(400).json({ message: 'Cannot add user to room.' });
     res.status(201).json(newRoom);
   } catch (err) {
@@ -34,16 +34,16 @@ router.put('/:id', async (req, res) => {
       include: [
         {
           model: User,
-          as: 'chatter',
+          as: 'participant',
           attributes: ['id', 'username'],
         }
       ]
     });
-    const userInRoom = roomData.chatter.find(chatter => chatter.id === userId);
+    const userInRoom = roomData.participant.find(chatter => chatter.id === userId);
     if (userInRoom) return res.status(400).json({ message: 'User is already registered to room.' });
     const okPassword = await roomData.checkPassword(password);
     if (!okPassword) return res.status(403).json({ message: 'Incorrect room credentials.' })
-    const enrollUser = await roomData.addChatter([...roomData.chatter, userId]);
+    const enrollUser = await roomData.addParticipant([...roomData.participant, userId]);
     if (enrollUser) return res.status(201).json(enrollUser);
     return res.status(401).json({ message: 'Unable to join room.' });
   } catch (err) {

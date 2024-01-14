@@ -45,16 +45,18 @@ Room.hasMany(Message, {
 // many users can have access to a single room
 Room.belongsToMany(User, {
   through: 'RoomUser',
-  as: 'chatter',
+  // as: 'chatter',
+  as: 'participant',
   foreignKey: 'room_id',
   otherKey: 'chatter_id'
 });
 
 User.belongsToMany(Room, {
   through: 'RoomUser',
-  as: 'chatter',
+  // as: 'chatter',
+  as: 'location',
   foreignKey: 'chatter_id',
   otherKey: 'room_id'
 });
 
-export { User, Room, Message/*, RoomUser */};
+export { User, Room, Message/*, RoomUser*/ };

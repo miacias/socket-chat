@@ -34,8 +34,8 @@ const joinRoom = async (event) => {
   event.preventDefault();
   const joinRoom = {
     userId: document.getElementById('user').getAttribute('data-user'),
-    roomId: document.getElementById('invite-code'),
-    password: document.getElementById('invite-password'),
+    roomId: document.getElementById('invite-code').value.trim(),
+    password: document.getElementById('invite-password').value.trim(),
   }
   const response = await fetch(`/api/rooms/${joinRoom.roomId}`, {
     method: 'PUT',
