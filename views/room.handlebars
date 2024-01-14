@@ -1,12 +1,13 @@
-{{!-- <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script> --}}
+<script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
 
 <h3>This is your room's chat area</h3>
 <p>Messages shown below here:</p>
-<ul id="messages-container"></ul>
-{{!-- <form>
-  <input type="text" id="msg-input" placeholder="Type a message"/>
-  <button onclick="sendMessage()">Send Message</button>
-  <ul id="messages"></ul>
-</form> --}}
-<script defer type="module" src="/js/room.js"></script>
-{{!-- <script type="module" src="/socket.io/socket.io.js"></script> --}}
+<div id="chatbox">
+  <ul id="message-container"></ul>
+  <form>
+    <input type="text" id="msg-input" placeholder="Type a message"/>
+    <button type="submit">Send Message</button>
+  </form>
+</div>
+<script defer type="module" src="/js/messageRoom.js"></script>
+<script type="module" src="/socket.io/socket.io.js"></script>

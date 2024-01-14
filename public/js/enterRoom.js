@@ -1,5 +1,5 @@
 // const socket = io(`ws://localhost:3000`);
-// const socket = io();
+const socket = io();
 // const socket = io("http://localhost:3000");
 const createRoomForm = document.getElementById('create-room');
 const joinRoomForm = document.getElementById('join-room');
@@ -9,7 +9,7 @@ const createRoom = async (event) => {
   const newRoom = {
     name: document.getElementById('room-name').value.trim(),
     password: document.getElementById('room-password').value.trim(),
-    adminId: document.getElementById('my-id').getAttribute('data-id'),
+    adminId: document.getElementById('user').getAttribute('data-user'),
   }
   if (newRoom.name && newRoom.password && newRoom.password.length >= 8) {
     const response = await fetch('/api/rooms', {
@@ -18,11 +18,11 @@ const createRoom = async (event) => {
       headers: { 'Content-Type': 'application/json' }
     });
     if (response.ok) {
-      console.log('ok!')
-      // socket.emit('createRoom', newRoom.name);
-      // document.location.replace(`/rooms/${newRoom.id}`);
+      const createdRoom = await response.json();
+      await socket.emit('createRoom', createdRoom.name);
+      document.location.replace(`/rooms/${createdRoom.id}`);
     } else {
-      // alert('Failed to create room.');
+      alert('Failed to create room.');
       // document.location.replace('/');
     }
   } else {

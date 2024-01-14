@@ -1,22 +1,28 @@
-import { io } from '../server.js';
+// import { io } from '../server.js';
 
-io.on('connection', (socket) => {
-  console.log('A user connected');
+// io.on('connection', (socket) => {
+//   console.log('A user connected');
 
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
+//   socket.on('disconnect', () => {
+//     console.log('User disconnected');
+//   });
 
-  // Handle room creation
-  socket.on('createRoom', (roomName) => {
-    socket.join(roomName);
-    io.to(roomName).emit('message', `You joined ${roomName}`);
-  });
+//   // Handle room creation
+//   socket.on('createRoom', (roomName) => {
+//     socket.join(roomName);
+//     io.to(roomName).emit('message', `You created ${roomName}`);
+//   });
 
-  // Handle chat messages
-  socket.on('sendMessage', (data) => {
-    io.to(data.room).emit('message', data.message/*, socket.request.session*/);
-  });
-});
+//   // Handle room join
+//   // socket.on('joinRoom', (roomName) => {
+//   //   socket.join(roomName);
+//   //   io.to(roomName).emit('message', `You joined ${roomName}`);
+//   // });
 
-// export default io;
+//   // Handle chat messages
+//   socket.on('sendMessage', (data) => {
+//     io.to(data.room).emit('message', data.message/*, socket.request.session*/);
+//   });
+// });
+
+// // export default io;

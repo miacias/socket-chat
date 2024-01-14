@@ -38,13 +38,38 @@ app.use(routes);
 
 const server = createServer(app);
 const io = new SocketServer(server, {
-  path: '/rooms'
+  // path: '/rooms'
+});
+
+io.on('connection', (socket) => {
+  console.log(`\x1b[34m A user connected\x1b[0m`);
+
+  socket.on('disconnect', () => {
+    console.log(`\x1b[34m User disconnected\x1b[0m`);
+  });
+
+  // Handle room creation
+  socket.on('createRoom', (roomName) => {
+    socket.join(roomName);
+    io.to(roomName).emit('message', `\x1b[34m You created ${roomName}\x1b[0m`);
+  });
+
+  // Handle room join
+  // socket.on('joinRoom', (roomName) => {
+  //   socket.join(roomName);
+  //   io.to(roomName).emit('message', `You joined ${roomName}`);
+  // });
+
+  // Handle chat messages
+  socket.on('sendMessage', (data) => {
+    io.to(data.room).emit('message', `\x1b[34m${data.message}\x1b[0m`/*, socket.request.session*/);
+  });
 });
 
 const runServer = async () => {
   try {
     await sequelize.sync({ force: false });
-    console.log('Database successfully synchronized.');
+    console.log(`\x1b[32m Database successfully re-synchronized. \x1b[0m`);
     server.listen(PORT, () => {
       console.log(`Server running on \x1b[35m http://localhost:${PORT} \x1b[0m`);
     });
