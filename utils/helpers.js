@@ -1,6 +1,6 @@
 export default {
   or: (a, b) => {
-    if (a || b) {
+    if (a.length || b.length) {
       return true
     } else {
       return false

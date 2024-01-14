@@ -35,10 +35,10 @@ Room.hasMany(Message, {
 //   onDelete: 'CASCADE',
 // });
 
-// Room.belongsTo(User, {
-//   as: 'admin',
-//   foreignKey: 'admin_id'
-// });
+Room.belongsTo(User, {
+  as: 'admin',
+  foreignKey: 'admin_id'
+});
 
 // --------------room to user----------------------------
 

@@ -10,7 +10,6 @@ import sequelize from '../../db/connection.js';
 router.get('/', async (req, res) => {
   const iChat = [];
   const iAdmin = [];
-  const allAdmins = [];
   try {
     // send room data to home dash if logged in
     if (req.session.userId) {
@@ -23,29 +22,27 @@ router.get('/', async (req, res) => {
           attributes: ['id', 'name', 'admin_id'],
           include: [
             {
+              // matches User from roomuser (as participant alias)
               model: User,
               as: 'participant',
+              attributes: ['id', 'username'],
+            },
+            {
+              // matches User from admin_id (as admin alias)
+              model: User,
+              as: 'admin',
               attributes: ['id', 'username'],
             },
           ]
           },
         ]
       });
-      // console.log(myRooms.location[0].participant)
+      // sorts rooms based on being admin or chatter
       myRooms.location.forEach((room, index) => {
-        console.log(room)
         room.admin_id === req.session.userId
           ? iAdmin[index] = room.get({ plain: true })
           : iChat[index] = room.get({ plain: true });
-        room.participant.forEach((chatter, index) => {
-          if (room.admin_id === chatter.id) {
-            allAdmins[index] = chatter;
-          }
-        });
       });
-      console.log('all admins', allAdmins)
-      // console.log('iChat', iChat)
-      // console.log('iAdmin', iAdmin)
       res.render('index', {
         loggedIn: !!req.session.userId,
         username: req.session.username,
