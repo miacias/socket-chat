@@ -4,7 +4,7 @@ import session, { Store } from 'express-session';
 import exphbs from 'express-handlebars';
 import { createServer } from 'node:http';
 import sequelize from './db/connection.js';
-import { Server } from 'socket.io';
+import { Server as SocketServer } from 'socket.io';
 import connectSessionSequelize from 'connect-session-sequelize';
 import routes from './routes/index.js';
 
@@ -37,7 +37,7 @@ app.set('view engine', 'handlebars');
 app.use(routes);
 
 const server = createServer(app);
-const io = new Server(server, {
+const io = new SocketServer(server, {
   path: '/rooms'
 });
 

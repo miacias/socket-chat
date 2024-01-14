@@ -1,26 +1,12 @@
-<script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
-<h3>This is where you will see rooms you created</h3>
-<p>Room names shown below here:</p>
-<ul id="rooms-container">
-  {{!-- {{#each myRooms}}
-  <li><a href="/{{myRooms/id}}">{{myRooms.name}}</a></li>
-  {{/each}} --}}
-</ul>
-
-<hr>
-<form id="create-room">
-  <input type="text" id="room-name" placeholder="Name New Room"/>
-  <input type="password" id="room-password" placeholder="Create Password"/>
-  <button type="submit">Start</button>
-</form>
+{{!-- <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script> --}}
 
 <h3>This is your room's chat area</h3>
 <p>Messages shown below here:</p>
-<ul id="messages"></ul>
+<ul id="messages-container"></ul>
 {{!-- <form>
   <input type="text" id="msg-input" placeholder="Type a message"/>
   <button onclick="sendMessage()">Send Message</button>
   <ul id="messages"></ul>
 </form> --}}
 <script defer type="module" src="/js/room.js"></script>
-<script type="module" src="/socket.io/socket.io.js"></script>
+{{!-- <script type="module" src="/socket.io/socket.io.js"></script> --}}

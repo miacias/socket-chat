@@ -1,4 +1,3 @@
-{{#if loggedIn}}
   <div id="room-forms">
     <h2>Create A Room</h2>
     <form id="create-room">
@@ -13,33 +12,11 @@
       <button type="submit">Join Room</button>
     </form>
   </div>
-  {{#if (or iAdmin iChat)}}
-  <hr>
-  <div id="rooms-container">
-    <h3 id='my-id' data-id={{userId}}>My Rooms</h3>
-    {{!-- admin rooms --}}
-    {{#if iAdmin}}
-    <p>Rooms I Moderate:</p>
-    {{#each iAdmin}}
-    <ul id="admin-rooms">
-      <li id={{id}}><a href="/rooms/{{id}}">{{name}}</a></li>
-    </ul>
-    {{/each}}
-    {{/if}}
-    {{!-- chatting rooms --}}
-    {{#if iChat}}
-    <p>Participant Rooms:</p>
-    {{#each iChat}}
-    <ul id="chat-rooms">
-      <li id={{id}}><a href="/rooms/{{id}}">{{name}}</a><span> hosted by {{participant.0.username}}</span></li>
-    </ul>
-    {{/each}}
-    {{/if}}
-  </div>
-  {{/if}}
-  <script type="module" src="/js/enterRoom.js"></script>
+{{#if loggedIn}}
+  <h3><a href="/rooms">See My Rooms!</a></h3>
 {{else}}
-  <h2>Log in to start chatting!</h2>
+  <h3>Log in to start chatting!</h3>
 {{/if}}
+<script type="module" src="/js/enterRoom.js"></script>
 {{!-- <script type="module" src="/socket.io/socket.io.js"></script>
 <script type="module" src="/js/socket.js"></script> --}}

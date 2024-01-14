@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import { User, Room, Message/*, RoomUser */} from '../../models/index.js';
+import { auth } from '../../utils/auth.js';
 
 // create a room
 /*
@@ -10,7 +11,7 @@ import { User, Room, Message/*, RoomUser */} from '../../models/index.js';
 	"adminId": "09adaba0-bbb2-4586-b1f2-64dcb3f9c38d"
 }
 */
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   const { name, password, adminId } = req.body;
   try {
     const newRoom = await Room.create({ name, password, admin_id: adminId });
@@ -25,7 +26,7 @@ router.post('/', async (req, res) => {
 });
 
 // join a room
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
   const roomId = req.params.id;
   const { password, userId } = req.body;
   try {
