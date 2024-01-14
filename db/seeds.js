@@ -3,72 +3,50 @@ import { User, Room, Message } from '../models/index.js';
 import sequelize from './connection.js';
 
 const userData = [
-  {
-    username: 'mia',
-    password: 'password'
-  },
-  {
-    username: 'john',
-    password: 'password'
-  },
-  {
-    username: 'henry',
-    password: 'password'
-  },
-  {
-    username: 'omar',
-    password: 'password'
-  },
-  {
-    username: 'vanessa',
-    password: 'password'
-  },
-  {
-    username: 'jun',
-    password: 'password'
-  },
-  {
-    username: 'wendy',
-    password: 'password'
-  },
-  {
-    username: 'jay',
-    password: 'password'
-  },
+  'mia', 'john', 'henry', 'omar', 'vanessa', 'jun', 'wendy', 'jay'
 ];
 
 const seedUsers = async () => {
-  const users = await User.bulkCreate(userData);
-  const firstTwoUsers = {
-    id1: users.slice(0, 1)[0].id,
-    id2: users.slice(1, 2)[0].id,
-  }
-  return seedRooms(firstTwoUsers);
+  const users = await User.bulkCreate(userData.map(username => ({ username, password: 'password' })));
+  return seedRooms(users);
 }
 
-const seedRooms = async (firstTwoUsers) => {
+const seedRooms = async (users) => {
   const roomData = [
     {
       name: 'mia\'s room',
       password: 'password',
-      admin_id: firstTwoUsers.id1
+      admin_id: users[0].id
     },
     {
       name: 'john\'s room',
       password: 'password',
-      admin_id: firstTwoUsers.id2
+      admin_id: users[1].id,
     },
   ];
   const room1 = await Room.create(roomData[0]);
   await room1.addChatter(roomData[0].admin_id);
   const room2 = await Room.create(roomData[1]);
   await room2.addChatter(roomData[1].admin_id);
-}
+  return joinRoom(room1, room2, users)
+};
+
+const joinRoom = async (room1, room2, users) => {
+  await room1.addChatter(users[2].id);
+  await room2.addChatter(users[3].id);
+  return;
+};
 
 const seedDb = async () => {
-  await sequelize.sync({ force: true });
-  await seedUsers();
-  sequelize.close();
-}
+  try {
+    await sequelize.sync({ force: true });
+    await seedUsers();
+    console.log(`\x1b[32m Users, Rooms, and RoomUsers successfully seeded. \x1b[0m`);
+  } catch (err) {
+    console.log(`\x1b[31m Failure seeding database: \x1b[0m ${err}`);
+  } finally {
+    sequelize.close();
+  }
+};
 
 seedDb();

@@ -30,10 +30,10 @@ Room.init(
     admin_id: {
       type: DataTypes.UUID,
       allowNull: false,
-      references: {
-        model: "user",
-        key: "id",
-      },
+      // references: {
+      //   model: "user",
+      //   key: "id",
+      // },
     }
   },
   {

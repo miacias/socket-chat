@@ -41,7 +41,7 @@ const io = new Server(server, {
   path: '/rooms'
 });
 
-const serverPromise = async () => {
+const runServer = async () => {
   try {
     await sequelize.sync({ force: false });
     console.log('Database successfully synchronized.');
@@ -49,10 +49,10 @@ const serverPromise = async () => {
       console.log(`Server running on \x1b[35m http://localhost:${PORT} \x1b[0m`);
     });
   } catch (err) {
-    console.error({ message: `Server failed to initialize. ${err}` });
+    console.error({ message: `\x1b[31m Server failed to initialize. \x1b[0m ${err}` });
   }
 };
 
-serverPromise();
+runServer();
 
 export default { server, io };

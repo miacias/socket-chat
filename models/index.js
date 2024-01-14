@@ -30,15 +30,15 @@ Room.hasMany(Message, {
 // --------------room to admin----------------------------
 
 // an admin user has many rooms and a room belongs to an admin
-User.hasMany(Room, {
-  foreignKey: 'admin_id',
-  onDelete: 'CASCADE',
-});
+// User.hasMany(Room, {
+//   foreignKey: 'admin_id',
+//   onDelete: 'CASCADE',
+// });
 
-Room.belongsTo(User, {
-  as: 'admin',
-  foreignKey: 'admin_id'
-});
+// Room.belongsTo(User, {
+//   as: 'admin',
+//   foreignKey: 'admin_id'
+// });
 
 // --------------room to user----------------------------
 
