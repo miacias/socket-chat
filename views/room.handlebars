@@ -1,10 +1,31 @@
 <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script>
-
-<h3>This is your room's chat area</h3>
+<h3 id="room-name" data-room={{room.id}}>Room: {{room.name}}</h3>
+<p>Admin: {{room.admin.username}}</p>
+<div id="chatter-list">
+  <p>Chatter List:</p>
+{{#if room.participant}}
+  <ul>
+  {{#each room.participant}}
+    <li>{{username}}</li>
+  {{/each}}
+  </ul>
+{{/if}}
+</div>
 <p>Messages shown below here:</p>
 <div id="chatbox">
-  <ul id="message-container"></ul>
-  <form>
+  <ul id="msg-container">
+    {{!-- {{#each}} --}}
+    <li>
+      <div>
+        <p>author username here</p>
+        <p>message text here</p>
+        <button id="message-id-here" class="msg-edit">Edit</button>
+        <button id="message-id-here" class="msg-delete">Delete</button>
+      </div>
+    </li>
+    {{!-- {{/each}} --}}
+  </ul>
+  <form id="msg-form">
     <input type="text" id="msg-input" placeholder="Type a message"/>
     <button type="submit">Send Message</button>
   </form>

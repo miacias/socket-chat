@@ -3,70 +3,25 @@ const router = express.Router();
 import { User, Room, Message } from '../../models/index.js';
 import { auth } from '../../utils/auth.js';
 
-
-// import db from '../db/connection';
-// const checkAuth = require('../middleware/checkAuth')
-
+// render home page
 router.get('/', async (req, res) => {
-  const iChat = [];
-  const iAdmin = [];
   try {
-    // send room data to home dash if logged in
-    // if (req.session.userId) {
-    //   const myRooms = await User.findByPk(req.session.userId, {
-    //     attributes: ['id', 'username'],
-    //     include: [
-    //       {
-    //       model: Room,
-    //       as: 'location',
-    //       attributes: ['id', 'name', 'admin_id'],
-    //       include: [
-    //         {
-    //           // matches User from roomuser (as participant alias)
-    //           model: User,
-    //           as: 'participant',
-    //           attributes: ['id', 'username'],
-    //         },
-    //         {
-    //           // matches User from admin_id (as admin alias)
-    //           model: User,
-    //           as: 'admin',
-    //           attributes: ['id', 'username'],
-    //         },
-    //       ]
-    //       },
-    //     ]
-    //   });
-    //   // sorts rooms based on being admin or chatter
-    //   myRooms.location.forEach((room, index) => {
-    //     room.admin_id === req.session.userId
-    //       ? iAdmin[index] = room.get({ plain: true })
-    //       : iChat[index] = room.get({ plain: true });
-    //   });
-    //   res.render('index', {
-    //     loggedIn: !!req.session.userId,
-    //     username: req.session.username,
-    //     userId: req.session.userId,
-    //     iChat,
-    //     iAdmin
-    //   });
-    // // send basic home page if logged out
-    // } else {
-      res.render('index', {
-        loggedIn: !!req.session.userId,
-        username: req.session.username,
-        userId: req.session.userId,
-      });
-    // }
+    res.render('index', {
+      loggedIn: !!req.session.userId,
+      username: req.session.username,
+      userId: req.session.userId,
+    });
   } catch (err) {
     res.status(500).send(err);
   }
 });
 
+// render login page
 router.get('/login', async (req, res) => {
   res.render('login');
 });
 
+// render rooms dashboard
 router.get('/rooms', auth, async (req, res) => {
   const iChat = [];
   const iAdmin = [];
@@ -115,12 +70,35 @@ router.get('/rooms', auth, async (req, res) => {
   }
 });
 
+// render one room
 router.get('/rooms/:id', auth, async (req, res) => {
+  const { id } = req.params;
+  if (!id) return res.redirect('/');
   try {
+    const thisRoom = await Room.findByPk(id, {
+      attributes: ['id', 'name', 'admin_id'],
+      include: [
+        {
+          // matches User from roomuser (as participant alias)
+          model: User,
+          as: 'participant',
+          attributes: ['id', 'username'],
+        },
+        {
+          // matches User from admin_id (as admin alias)
+          model: User,
+          as: 'admin',
+          attributes: ['id', 'username'],
+        },
+      ]
+    });
+    if (!thisRoom) return res.status(401).json({ message: 'Could not load room.' });
+    const room = await thisRoom.get({ plain: true });
     res.render('room', {
       loggedIn: !!req.session.userId,
       username: req.session.username,
       userId: req.session.userId,
+      room
     });
   } catch (err) {
     console.error(err);
