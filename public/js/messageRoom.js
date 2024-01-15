@@ -78,10 +78,10 @@ const deleteMessage = async (event) => {
 
 const manageMessage = async (event) => {
   event.preventDefault();
-  const button = event.target;
-  if (button.classList.contains('msg-edit')) {
+  const button = event.target.classList;
+  if (button.contains('msg-edit')) {
     return editMessage(event);
-  } else {
+  } else if (button.contains('msg-delete')) {
     return deleteMessage(event);
   }
 };
